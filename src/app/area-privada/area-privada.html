@@ -1,0 +1,62 @@
+<div class="container">
+<div class="col"></div><h1>Área Privada</h1></div>
+
+<div class="form-group">
+    <label for="nombre">Nombre:</label>
+    <input type="text" class="form-control" id="nombre" placeholder="Nombre" [(ngModel)]="cuadroNombre">
+  </div> 
+<br/>
+
+  <div class="form-group">
+    <label for="edad">Edad:</label>
+    <input type="text" class="form-control" id="edad" placeholder="Edad" [(ngModel)]="cuadroEdad">
+  </div>
+  <br/>
+
+  <div class="form-group">
+    <label for="altura">Altura:</label>
+    <input type="text" class="form-control" id="altura" placeholder="Altura" [(ngModel)]="cuadroAltura">
+  </div>
+  <br/>
+
+  <div class="form-group">
+    <label for="peso">Peso:</label>
+    <input type="text" class="form-control" id="peso" placeholder="Peso" [(ngModel)]="cuadroPeso">
+  </div>
+  <br/>
+
+  <!--    
+para descargar un fail Form Control File and Range -->
+
+<div class="form-control">
+<input type="range" class="form-control-range">
+<input type="file" class="form-control-file border">
+</div>
+<br/>
+
+
+  <div class="col">
+    <button type="submit" class="btn btn-primary" (click)="guardarCambios()">Guardar</button>
+  </div>
+  <br/>
+
+  <br/>
+
+<p *ngIf="guardado; else sinGuardar">{{mensaje_guard}}</p>
+
+<ng-template #sinGuardar>
+    <p>No hay cambias</p>
+</ng-template>
+
+  
+<!--  
+para Custom Select Menu:
+<form>
+  <select name="cars" class="custom-select">
+    <option selected>Custom Select Menu</option>
+    <option value="volvo">Volvo</option>
+    <option value="fiat">Fiat</option>
+    <option value="audi">Audi</option>
+  </select>
+</form>
+-->

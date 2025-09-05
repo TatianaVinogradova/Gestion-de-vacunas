@@ -1,0 +1,20 @@
+
+<h1>{{titulo_reg}}</h1>
+
+<form>
+
+<input type="text" name = "E-mail" placeholder="E-mail"><br/>
+
+<input type="text" name = "Contraseña" placeholder="Contraseña"><br/>
+
+<input type="submit" value = "Registrar" (click)="registrarUsuario()"><br/>
+
+</form>
+
+<br/>
+
+<p *ngIf="registrado; else sinRegistrar">{{mensaje_reg}}</p>
+
+<ng-template #sinRegistrar>
+    <p>Nadie registrado</p>
+</ng-template>

@@ -1,12 +1,18 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { EstadoDeVacunacion } from "./estado-de-vacunacion/estado-de-vacunacion";
+import { AreaPrivada } from "./area-privada/area-privada";
+import { Registracion } from "./registracion/registracion";
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [EstadoDeVacunacion, AreaPrivada, Registracion],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrls: ['./app.scss']
 })
 export class App {
-  protected readonly title = signal('gestion-de-vacunas');
+  protected readonly title = signal('Gestión de vacunas');
+
+  
+  
 }
