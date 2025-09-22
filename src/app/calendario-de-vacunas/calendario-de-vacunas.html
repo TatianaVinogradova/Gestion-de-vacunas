@@ -1,0 +1,175 @@
+<div class="calendario-container">
+    <!-- Header oficial -->
+    <div class="header-oficial">
+      <div class="escudo-espana">🇪🇸</div>
+      <div class="titulo-oficial">
+        <h1>Calendario Común de Vacunación</h1>
+        <h2>A lo largo de toda la vida 2025</h2>
+        <p class="ministerio">Ministerio de Sanidad - Consejo Interterritorial del SNS</p>
+        <p class="fecha-aprobacion">Aprobado el 16 de diciembre de 2024</p>
+      </div>
+    </div>
+
+    <!-- Filtros de visualización -->
+    <div class="filtros-calendario">
+      <div class="grupo-filtros">
+        <button 
+          *ngFor="let grupo of gruposEdad" 
+          class="filtro-btn"
+          [class.active]="grupoSeleccionado === grupo.id"
+          (click)="seleccionarGrupo(grupo.id)"
+        >
+          {{ grupo.nombre }}
+        </button>
+      </div>
+      
+      <div class="vista-selector">
+        <button 
+          class="vista-btn" 
+          [class.active]="vistaActual === 'timeline'"
+          (click)="cambiarVista('timeline')"
+        >
+          📅 Cronológica
+        </button>
+        <button 
+          class="vista-btn" 
+          [class.active]="vistaActual === 'vacunas'"
+          (click)="cambiarVista('vacunas')"
+        >
+          💉 Por Vacunas
+        </button>
+      </div>
+    </div>
+
+    <!-- Vista cronológica (timeline) -->
+    <div class="calendario-timeline" *ngIf="vistaActual === 'timeline'">
+      <div class="timeline-header">
+        <h3>Calendario por Edades - {{ obtenerNombreGrupo(grupoSeleccionado) }}</h3>
+      </div>
+      
+      <div class="timeline-container">
+        <div 
+          *ngFor="let edad of obtenerEdadesFiltradas()" 
+          class="timeline-item"
+        >
+          <div class="edad-marker">
+            <div class="edad-circle">{{ edad.nombre }}</div>
+            <div class="edad-label">{{ edad.descripcion }}</div>
+          </div>
+          
+          <div class="vacunas-edad">
+            <div 
+              *ngFor="let vacuna of edad.vacunas" 
+              class="vacuna-item"
+              [style.border-left-color]="vacuna.color"
+            >
+              <div class="vacuna-nombre">
+                <strong>{{ vacuna.nombreCorto }}</strong>
+                <span class="vacuna-completa">{{ vacuna.nombre }}</span>
+              </div>
+              <div class="vacuna-dosis">{{ vacuna.dosis }}</div>
+              <div class="vacuna-tipo" *ngIf="vacuna.obligatoria">
+                <span class="badge obligatoria">Sistemática</span>
+              </div>
+              <div class="vacuna-notas" *ngIf="vacuna.notas">
+                <small>{{ vacuna.notas }}</small>
+              </div>
+            </div>
+            
+            <div class="mensaje-vacio" *ngIf="edad.vacunas.length === 0">
+              No hay vacunas programadas para esta edad en el grupo seleccionado
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vista por vacunas -->
+    <div class="calendario-vacunas" *ngIf="vistaActual === 'vacunas'">
+      <div class="vacunas-header">
+        <h3>Vacunas del Calendario Oficial</h3>
+        <p>Información detallada por tipo de vacuna</p>
+      </div>
+      
+      <div class="vacunas-grid">
+        <div 
+          *ngFor="let vacuna of vacunasOficiales" 
+          class="vacuna-card"
+          [style.border-left-color]="vacuna.color"
+        >
+          <div class="vacuna-header">
+            <h4>{{ vacuna.nombreCorto }}</h4>
+            <div class="vacuna-nombre-completo">{{ vacuna.nombre }}</div>
+          </div>
+          
+          <div class="vacuna-descripcion">
+            <p>{{ vacuna.descripcion }}</p>
+          </div>
+          
+          <div class="vacuna-cronograma">
+            <h5>Cronograma de administración:</h5>
+            <div class="edades-lista">
+              <div 
+                *ngFor="let edad of vacuna.edades" 
+                class="edad-item"
+                [class.obligatoria]="edad.obligatoria"
+              >
+                <span class="edad">{{ edad.edad }}</span>
+                <span class="dosis">{{ edad.dosis }}</span>
+                <span class="notas" *ngIf="edad.notas">{{ edad.notas }}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="vacuna-observaciones" *ngIf="vacuna.observaciones">
+            <h5>Observaciones:</h5>
+            <p>{{ vacuna.observaciones }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leyenda y notas importantes -->
+    <div class="leyenda-oficial">
+      <h3>Leyenda e Información Importante</h3>
+      
+      <div class="leyenda-grid">
+        <div class="leyenda-item">
+          <div class="simbolo sistemática"></div>
+          <span>Administración sistemática (obligatoria)</span>
+        </div>
+        <div class="leyenda-item">
+          <div class="simbolo susceptibles"></div>
+          <span>Administración en personas susceptibles</span>
+        </div>
+        <div class="leyenda-item">
+          <div class="simbolo estacional"></div>
+          <span>Vacunación estacional</span>
+        </div>
+      </div>
+      
+      <div class="notas-importantes">
+        <h4>Notas Importantes:</h4>
+        <ul>
+          <li><strong>*</strong> La edad puede variar ligeramente en programas escolares</li>
+          <li><strong>**</strong> La edad figurará en el documento de recomendaciones de cada temporada</li>
+          <li>Las vacunas sistemáticas están financiadas por el Sistema Nacional de Salud</li>
+          <li>Consulte siempre con su profesional sanitario sobre el calendario personalizado</li>
+          <li>Este calendario puede tener variaciones según la Comunidad Autónoma</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Footer oficial -->
+    <div class="footer-oficial">
+      <div class="enlaces-oficiales">
+        <p><strong>Más información:</strong></p>
+        <a href="https://www.sanidad.gob.es/areas/promocionPrevencion/vacunaciones/calendario/" target="_blank">
+          Portal oficial del Ministerio de Sanidad
+        </a>
+      </div>
+      <div class="actualizacion">
+        <p>Última actualización: Enero 2025</p>
+      </div>
+    </div>
+  </div>

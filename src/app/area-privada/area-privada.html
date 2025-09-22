@@ -1,55 +1,100 @@
-<div class="container">
-<div class="col"></div><h1>Área Privada</h1></div>
+<div class="area-privada-container">
+  <header class="header">
+    <div class="header-left">
+      <h1>Área Privada</h1>
+      
+      <nav class="nav-buttons">
+        <button class="nav-btn" (click)="mostrarPerfil()">Ver Perfil</button>
+        <button class="nav-btn" (click)="irACalendario()">Calendario de Vacunas</button>
+        <button class="nav-btn" (click)="mostrarAyuda()">Ayuda</button>
+      </nav>
+    </div>
+    <div class="user-info" *ngIf="usuario">
+      <span>Bienvenido: {{ usuario.email }}</span>
+      <button (click)="cerrarSesion()" class="logout-btn">Cerrar Sesión</button>
+    </div>
+  </header>
+  
+  <main class="content">
+    <div class="welcome-section">
+      <h2>¡Bienvenido a tu área privada!</h2>
+      <p>Has iniciado sesión correctamente.</p>
+    </div>
+    
+    <div class="actions-section">
+      <h3>Información adicional</h3>
+      <div class="info-cards">
+        <div class="info-card clickable" (click)="mostrarEstadoSalud()" style="cursor: pointer;">
+          <h4>Estado de Vacunación</h4>
+          <p>Mantén un registro actualizado del estado de vacunación de tu familia.</p>
+        </div>
+        <div class="info-card">
+          <h4>Recordatorios</h4>
+          <p>Recibe notificaciones sobre próximas vacunas y citas médicas importantes.</p>
+        </div>
+        <div class="info-card">
+          <h4>Historial</h4>
+          <p>Accede al historial completo de vacunaciones de cada miembro de la familia.</p>
+        </div>
+      </div>
+    </div>
+  </main>
 
-<div class="form-group">
-    <label for="nombre">Nombre:</label>
-    <input type="text" class="form-control" id="nombre" placeholder="Nombre" [(ngModel)]="cuadroNombre">
-  </div> 
-<br/>
-
-  <div class="form-group">
-    <label for="edad">Edad:</label>
-    <input type="text" class="form-control" id="edad" placeholder="Edad" [(ngModel)]="cuadroEdad">
+  <!-- Modal para el perfil -->
+  <div class="modal-overlay" *ngIf="mostrarModalPerfil" (click)="cerrarPerfil()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Perfiles Familiares</h2>
+        <button class="close-btn" (click)="cerrarPerfil()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <app-perfil></app-perfil>
+      </div>
+    </div>
   </div>
-  <br/>
 
-  <div class="form-group">
-    <label for="altura">Altura:</label>
-    <input type="text" class="form-control" id="altura" placeholder="Altura" [(ngModel)]="cuadroAltura">
-  </div>
-  <br/>
 
-  <div class="form-group">
-    <label for="peso">Peso:</label>
-    <input type="text" class="form-control" id="peso" placeholder="Peso" [(ngModel)]="cuadroPeso">
+  <!-- Modal para estado de salud -->
+<div class="modal-overlay" *ngIf="mostrarModalEstadoSalud" (click)="cerrarEstadoSalud()">
+  <div class="modal-content large" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Estado de Vacunación</h2>
+      <button class="close-btn" (click)="cerrarEstadoSalud()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <app-estado-de-vacunacion></app-estado-de-vacunacion>
+    </div>
   </div>
-  <br/>
+</div>
+
+
+<!-- Modal para calendario de vacunas -->
+<div class="modal-overlay" *ngIf="mostrarModalCalendario" (click)="cerrarCalendario()">
+  <div class="modal-content extra-large" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Calendario Oficial de Vacunación</h2>
+      <button class="close-btn" (click)="cerrarCalendario()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <app-calendario-de-vacunas></app-calendario-de-vacunas>
+    </div>
+  </div>
+</div>
+
+
 
   <!--    
 para descargar un fail Form Control File and Range -->
-
+<!--  
 <div class="form-control">
 <input type="range" class="form-control-range">
 <input type="file" class="form-control-file border">
 </div>
 <br/>
 
-
-  <div class="col">
-    <button type="submit" class="btn btn-primary" (click)="guardarCambios()">Guardar</button>
-  </div>
-  <br/>
-
-  <br/>
-
-<p *ngIf="guardado; else sinGuardar">{{mensaje_guard}}</p>
-
-<ng-template #sinGuardar>
-    <p>No hay cambias</p>
-</ng-template>
-
   
-<!--  
+  
+
 para Custom Select Menu:
 <form>
   <select name="cars" class="custom-select">

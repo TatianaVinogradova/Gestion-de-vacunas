@@ -1,0 +1,563 @@
+.document-uploader {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+  }
+  
+  .uploader-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .uploader-header h3 {
+    color: #2563eb;
+    margin: 0 0 10px 0;
+    font-size: 22px;
+    font-weight: 700;
+  }
+  
+  .uploader-header p {
+    color: #6b7280;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  /* Área de carga */
+  .upload-area {
+    border: 3px dashed #d1d5db;
+    border-radius: 12px;
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #f9fafb;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .upload-area:hover {
+    border-color: #2563eb;
+    background: #eff6ff;
+  }
+  
+  .upload-area.dragover {
+    border-color: #059669;
+    background: #ecfdf5;
+    transform: scale(1.02);
+  }
+  
+  .upload-area.processing {
+    border-color: #f59e0b;
+    background: #fffbeb;
+    cursor: not-allowed;
+  }
+  
+  .upload-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .upload-icon {
+    font-size: 48px;
+    margin-bottom: 10px;
+  }
+  
+  .upload-content h4 {
+    color: #374151;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  
+  .upload-content p {
+    color: #6b7280;
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  .file-examples {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .example {
+    background: #e5e7eb;
+    color: #374151;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  
+  /* Contenido de procesamiento */
+  .processing-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f4f6;
+    border-top: 4px solid #f59e0b;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .processing-content h4 {
+    color: #f59e0b;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  
+  .processing-content p {
+    color: #6b7280;
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  /* Selector de persona */
+  .person-selector {
+    margin: 25px 0;
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .person-selector label {
+    display: block;
+    color: #374151;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  
+  .person-select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 16px;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+  }
+  
+  .person-select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+
+  .detected-person {
+    color: #059669;
+    font-size: 14px;
+    font-weight: 500;
+    margin-left: 15px;
+  }
+
+  /* Botón principal de carga de documento */
+.btn-upload-doc {
+  background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 20px auto;
+  border: 2px solid transparent;
+}
+
+.btn-upload-doc:hover {
+  background: linear-gradient(135deg, #45a049 0%, #5ba65d 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+  border-color: #4CAF50;
+}
+
+/* Botones de acción principales */
+.action-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin: 25px 0;
+  flex-wrap: wrap;
+}
+
+.btn-apply {
+  background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+  border: 2px solid transparent;
+  min-width: 200px;
+}
+
+.btn-apply:hover:not(:disabled) {
+  background: linear-gradient(135deg, #45a049 0%, #5ba65d 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-apply:disabled {
+  background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%);
+  color: #9e9e9e;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-cancel {
+  background: transparent;
+  color: #666;
+  border: 2px solid #e0e0e0;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  min-width: 120px;
+}
+
+.btn-cancel:hover {
+  background: #f5f5f5;
+  border-color: #bdbdbd;
+  color: #333;
+  transform: translateY(-1px);
+}
+
+.btn-icon {
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+
+/* Estilos para checkboxes personalizados */
+.apply-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.apply-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.apply-checkbox .checkmark {
+  height: 20px;
+  width: 20px;
+  background: #f8f9fa;
+  border: 2px solid #dee2e6;
+  border-radius: 4px;
+  position: relative;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.apply-checkbox:hover .checkmark {
+  background: #e9ecef;
+  border-color: #4CAF50;
+}
+
+.apply-checkbox input:checked ~ .checkmark {
+  background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+  border-color: #4CAF50;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+.apply-checkbox .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 6px;
+  top: 2px;
+  width: 6px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.apply-checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.apply-checkbox .label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+/* Badges de confianza */
+.doc-type-badge {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.confidence-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-left: 8px;
+}
+
+.high-confidence .confidence-badge {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.medium-confidence .confidence-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+.low-confidence .confidence-badge {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+/* Items de vacuna */
+.vaccine-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.vaccine-item:hover {
+  background: #f0f9ff;
+  border-color: #3b82f6;
+  transform: translateX(3px);
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);
+}
+
+.high-confidence {
+  border-left: 4px solid #4CAF50;
+}
+
+.medium-confidence {
+  border-left: 4px solid #f59e0b;
+}
+
+.low-confidence {
+  border-left: 4px solid #ef4444;
+}
+
+/* Selector de persona */
+.person-select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 16px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #374151;
+  font-weight: 500;
+}
+
+.person-select:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+/* Mensaje de éxito */
+.success-message {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  border: 2px solid #4CAF50;
+  border-radius: 12px;
+  padding: 25px;
+  margin: 20px 0;
+  animation: successSlideIn 0.5s ease-out;
+}
+
+@keyframes successSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.success-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  text-align: left;
+}
+
+.success-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.success-content h4 {
+  color: #166534;
+  margin: 0 0 5px 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.success-content p {
+  color: #15803d;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .btn-apply,
+  .btn-cancel {
+    min-width: auto;
+    width: 100%;
+  }
+  
+  .vaccine-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+  
+  .apply-checkbox {
+    justify-content: center;
+    padding: 10px 0;
+  }
+  
+  .success-content {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* Estado vacío */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6b7280;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+.empty-state h4 {
+  color: #374151;
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.empty-state p {
+  margin: 5px 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Texto extraído */
+.extracted-text {
+  margin: 20px 0;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.extracted-text summary {
+  background: #f9fafb;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #374151;
+  transition: background-color 0.3s;
+}
+
+.extracted-text summary:hover {
+  background: #f3f4f6;
+}
+
+.text-preview {
+  max-height: 200px;
+  overflow-y: auto;
+  background: white;
+  border-top: 1px solid #e5e7eb;
+}
+
+.text-preview pre {
+  padding: 16px;
+  margin: 0;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #374151;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}

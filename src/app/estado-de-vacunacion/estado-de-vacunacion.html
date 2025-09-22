@@ -1,2 +1,168 @@
-<h1 style="text-align: center;">El estado de vacunación:</h1>
+<div class="estado-vacunacion-container">
+    <h2>Estado de Vacunación Familiar</h2>
+  
+    <!-- Selector de personas -->
+    <div class="selector-personas">
+      <h3>Seleccionar Persona</h3>
+      <div class="personas-tabs" *ngIf="personas.length > 0">
+        <button 
+          *ngFor="let persona of personas"
+          class="persona-tab"
+          [class.active]="personaSeleccionada?.id === persona.id"
+          (click)="seleccionarPersona(persona)"
+        >
+          {{ persona.nombre }}
+          <span class="porcentaje">{{ obtenerPorcentaje(persona.id!) }}%</span>
+        </button>
+      </div>
 
+      <div class="action-buttons-top">
+        <button class="btn-upload-doc" (click)="mostrarCargador()">
+          📄 Cargar Documento de Vacunación
+        </button>
+      </div>
+
+      <div class="mensaje-vacio" *ngIf="personas.length === 0">
+        <p>No hay personas registradas.</p>
+        <p>Ve a "Ver Perfil" en el Área Privada para añadir personas.</p>
+      </div>
+    </div>
+
+    <div class="document-upload-section" *ngIf="mostrarCargadorDocumentos">
+        <div class="upload-overlay">
+          <div class="upload-modal">
+            <div class="upload-header">
+              <h3>Cargar Documento de Vacunación</h3>
+              <button class="close-btn" (click)="cerrarCargador()">&times;</button>
+            </div>
+            <app-document-uploader 
+              (vacunasActualizadas)="onVacunasActualizadas()">
+            </app-document-uploader>
+          </div>
+        </div>
+      </div>
+  
+    <!-- Gráfico circular y estado de vacunación -->
+    <div class="vacunacion-content" *ngIf="personaSeleccionada && estadoActual">
+      <div class="grafico-section">
+        <h3>Estado de Vacunación - {{ personaSeleccionada.nombre }}</h3>
+        
+        <!-- Gráfico circular SVG -->
+        <div class="chart-container">
+          <svg class="donut-chart" viewBox="0 0 200 200" width="300" height="300">
+            <defs>
+              <filter id="shadow">
+                <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.3"/>
+              </filter>
+            </defs>
+            
+            <!-- Círculo base -->
+            <circle 
+              cx="100" 
+              cy="100" 
+              r="80" 
+              fill="none" 
+              stroke="#f0f0f0" 
+              stroke-width="20"
+            />
+            
+            <!-- Segmentos de vacunas -->
+            <g *ngFor="let segmento of segmentosGrafico; let i = index">
+              <path
+                [attr.d]="segmento.path"
+                [attr.fill]="segmento.aplicada ? '#4CAF50' : '#e0e0e0'"
+                stroke="white"
+                stroke-width="2"
+                filter="url(#shadow)"
+                class="segmento-vacuna"
+              />
+              <text
+                [attr.x]="segmento.textX"
+                [attr.y]="segmento.textY"
+                text-anchor="middle"
+                font-size="9"
+                font-weight="bold"
+                fill="#333"
+              >
+                {{ segmento.nombre }}
+              </text>
+            </g>
+            
+            <!-- Círculo central con porcentaje -->
+            <circle cx="100" cy="100" r="50" fill="white" filter="url(#shadow)"/>
+            <text x="100" y="95" text-anchor="middle" font-size="24" font-weight="bold" fill="#333">
+              {{ estadoActual.porcentajeCompletado }}%
+            </text>
+            <text x="100" y="115" text-anchor="middle" font-size="12" fill="#666">
+              Completado
+            </text>
+          </svg>
+        </div>
+      </div>
+  
+      <!-- Lista detallada de vacunas -->
+      <div class="vacunas-detalle">
+        <h3>Detalle de Vacunas</h3>
+        <div class="vacunas-lista">
+          <div 
+            *ngFor="let vacuna of estadoActual.vacunas" 
+            class="vacuna-item"
+            [class.aplicada]="vacuna.aplicada"
+          >
+            <div class="vacuna-info">
+              <div class="vacuna-nombre">
+                <i class="icono" [class.aplicada]="vacuna.aplicada">
+                  {{ vacuna.aplicada ? '✓' : '○' }}
+                </i>
+                <strong>{{ vacuna.nombre }}</strong>
+              </div>
+              <div class="vacuna-estado">
+                <span [class]="vacuna.aplicada ? 'estado-ok' : 'estado-pendiente'">
+                  {{ vacuna.aplicada ? 'Aplicada' : 'Pendiente' }}
+                </span>
+                <span *ngIf="vacuna.fechaAplicacion" class="fecha">
+                  {{ vacuna.fechaAplicacion | date:'dd/MM/yyyy' }}
+                </span>
+              </div>
+            </div>
+            <div class="vacuna-acciones">
+              <label class="checkbox-container">
+                <input 
+                  type="checkbox" 
+                  [checked]="vacuna.aplicada"
+                  (change)="toggleVacuna(vacuna)"
+                />
+                <span class="checkmark"></span>
+              </label>
+              <input 
+                *ngIf="vacuna.aplicada"
+                type="date" 
+                [value]="formatearFecha(vacuna.fechaAplicacion)"
+                (change)="actualizarFecha(vacuna, $event)"
+                class="fecha-input"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Estadísticas globales -->
+    <div class="estadisticas-globales" *ngIf="personas.length > 0">
+      <h3>Estadísticas Familiares</h3>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-numero">{{ estadisticasGlobales.totalPersonas }}</div>
+          <div class="stat-label">Personas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-numero">{{ estadisticasGlobales.vacunasAplicadas }}/{{ estadisticasGlobales.totalVacunas }}</div>
+          <div class="stat-label">Vacunas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-numero">{{ estadisticasGlobales.porcentajeGlobal }}%</div>
+          <div class="stat-label">Completado</div>
+        </div>
+      </div>
+    </div>
+  </div>

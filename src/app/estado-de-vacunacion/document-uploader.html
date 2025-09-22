@@ -1,0 +1,130 @@
+<div class="document-uploader">
+    <div class="uploader-header">
+      <h3>Cargar Documento de Vacunación</h3>
+      <p>Sube una foto o PDF de tu cartilla de vacunación para actualizar automáticamente tu estado</p>
+    </div>
+
+    <!-- Área de carga -->
+    <div class="upload-area" 
+         [class.dragover]="dragOver"
+         [class.processing]="procesando"
+         (dragover)="onDragOver($event)"
+         (dragleave)="onDragLeave($event)"
+         (drop)="onDrop($event)"
+         (click)="fileInput.click()">
+      
+      <input #fileInput 
+             type="file" 
+             accept=".jpg,.jpeg,.png,.pdf" 
+             (change)="onFileSelected($event)"
+             style="display: none">
+      
+      <div class="upload-content" *ngIf="!procesando">
+        <div class="upload-icon">📄</div>
+        <h4>Arrastra tu documento aquí o haz clic para seleccionar</h4>
+        <p>Formatos soportados: JPG, PNG, PDF</p>
+        <div class="file-examples">
+          <span class="example">📋 Cartilla de vacunación</span>
+          <span class="example">📄 Certificado COVID</span>
+          <span class="example">🏥 Informe médico</span>
+        </div>
+      </div>
+
+      <div class="processing-content" *ngIf="procesando">
+        <div class="spinner"></div>
+        <h4>Analizando documento...</h4>
+        <p>Extrayendo información de vacunas</p>
+      </div>
+    </div>
+
+    <!-- Selector de persona -->
+    <div class="person-selector" *ngIf="!procesando && personas.length > 0">
+      <label>¿Para quién es este documento?</label>
+      <select [(ngModel)]="personaSeleccionada" class="person-select">
+        <option value="">Seleccionar persona...</option>
+        <option *ngFor="let persona of personas" [value]="persona.id">
+          {{ persona.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Resultados del análisis -->
+    <div class="scan-results" *ngIf="ultimoResultado && !procesando">
+      <div class="results-header">
+        <h4>Resultado del Análisis</h4>
+        <div class="document-info">
+          <span class="doc-type">{{ getTipoDocumentoTexto(ultimoResultado.tipoDocumento) }}</span>
+          <span class="detected-person" *ngIf="ultimoResultado.nombrePersona">
+            Persona detectada: <strong>{{ ultimoResultado.nombrePersona }}</strong>
+          </span>
+        </div>
+      </div>
+
+      <div class="vaccines-detected">
+        <h5>Vacunas detectadas:</h5>
+        
+        <div class="vaccines-list" *ngIf="ultimoResultado.vacunasDetectadas.length > 0">
+          <div *ngFor="let vacuna of ultimoResultado.vacunasDetectadas" 
+               class="vaccine-item"
+               [class.high-confidence]="vacuna.confianza > 0.7"
+               [class.medium-confidence]="vacuna.confianza > 0.4 && vacuna.confianza <= 0.7"
+               [class.low-confidence]="vacuna.confianza <= 0.4">
+            
+            <div class="vaccine-info">
+              <div class="vaccine-name">
+                <strong>{{ vacuna.nombre }}</strong>
+                <span class="confidence-badge">{{ getConfianzaTexto(vacuna.confianza) }}</span>
+              </div>
+              <div class="vaccine-details" *ngIf="vacuna.fecha">
+                <span class="date">📅 {{ vacuna.fecha | date:'dd/MM/yyyy' }}</span>
+                <span class="lab" *ngIf="vacuna.laboratorio">🏭 {{ vacuna.laboratorio }}</span>
+                <span class="lot" *ngIf="vacuna.lote">🏷️ Lote: {{ vacuna.lote }}</span>
+              </div>
+            </div>
+
+            <label class="apply-checkbox">
+              <input type="checkbox" 
+                     [checked]="vacuna.confianza > 0.6"
+                     (change)="toggleVacunaAplicar(vacuna, $event)">
+              <span class="checkmark"></span>
+              <span class="label">Aplicar</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="no-vaccines" *ngIf="ultimoResultado.vacunasDetectadas.length === 0">
+          <p>No se detectaron vacunas en el documento.</p>
+          <p>Intenta con una imagen más clara o un formato diferente.</p>
+        </div>
+      </div>
+
+      <!-- Texto completo extraído (expandible) -->
+      <details class="extracted-text">
+        <summary>Ver texto extraído completo</summary>
+        <pre>{{ ultimoResultado.textoCompleto }}</pre>
+      </details>
+
+      <!-- Botones de acción -->
+      <div class="action-buttons">
+        <button class="btn-apply" 
+                [disabled]="!personaSeleccionada || vacunasParaAplicar.length === 0"
+                (click)="aplicarVacunas()">
+          Aplicar {{ vacunasParaAplicar.length }} vacunas seleccionadas
+        </button>
+        <button class="btn-cancel" (click)="limpiarResultados()">
+          <span class="btn-icon">❌</span>
+          Cancelar
+        </button>
+      </div>
+    </div>
+
+    <!-- Mensaje de éxito -->
+    <div class="success-message" *ngIf="mostrarExito">
+      <div class="success-content">
+        <div class="success-icon">✅</div>
+        <h4>¡Vacunas actualizadas correctamente!</h4>
+        <p>Se han aplicado {{ vacunasAplicadas }} vacunas al estado de {{ nombrePersonaActualizada }}</p>
+      <small>El gráfico se actualizará automáticamente</small>
+      </div>
+    </div>
+  </div>

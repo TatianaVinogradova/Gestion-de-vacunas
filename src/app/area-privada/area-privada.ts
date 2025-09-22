@@ -1,59 +1,92 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Persona } from './persona.model';
-
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
+import { User } from '@angular/fire/auth';
+import { Perfil } from '../perfil/perfil'; // Importar el componente Perfil
+import { EstadoDeVacunacion } from '../estado-de-vacunacion/estado-de-vacunacion'
+import { CalendarioDeVacunas } from '../calendario-de-vacunas/calendario-de-vacunas';
 
 @Component({
   selector: 'app-area-privada',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [CommonModule, Perfil, EstadoDeVacunacion, CalendarioDeVacunas], // Añadir Perfil a imports
   templateUrl: './area-privada.html',
   styleUrls: ['./area-privada.scss']
 })
 export class AreaPrivada implements OnInit {
-  mensaje_guard="";
-  guardado=false;
+  usuario: User | null = null;
+  mostrarModalPerfil: boolean = false; // Variable para controlar el modal
+  mostrarModalEstadoSalud: boolean = false; // Variable para controlar el modal de estado de salud
+  mostrarModalCalendario: boolean = false;
 
-  areaPrivada:Persona[]=[
-    { nombre: "Tatiana", edad: "35", altura: "165", peso: "58" },
-    { nombre: "Sofía", edad: "10", altura: "130", peso: "25" },
-  ];
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-
-  cuadroNombre:string="";
-  cuadroEdad:string="";
-  cuadroAltura:string="";
-  cuadroPeso:string="";
-
-
-  constructor() {
-    
+  ngOnInit() {
+    // Suscribirse al estado del usuario
+    this.authService.user$.subscribe(user => {
+      if (user) {
+        this.usuario = user;
+      } else {
+        // Si no hay usuario, redirigir al login
+        this.router.navigate(['/login']);
+      }
+    });
   }
 
-  ngOnInit(): void {
+  async cerrarSesion() {
+    try {
+      await this.authService.logout();
+      // El servicio ya redirige automáticamente al login
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
   }
 
-  guardarCambios(){
-    this.guardado=true
-    this.mensaje_guard="Cambios guardados con èxito"
-    
-    // Crear nueva persona a partir de los inputs
-    const miCambios: Persona = {
-      nombre: this.cuadroNombre,
-      edad: this.cuadroEdad,
-      altura: this.cuadroAltura,
-      peso: this.cuadroPeso
-    };
+  // Función para mostrar el modal del perfil
+  mostrarPerfil() {
+    this.mostrarModalPerfil = true;
+    // Evitar scroll del body cuando el modal está abierto
+    document.body.style.overflow = 'hidden';
+  }
 
-    // Agregar a la lista
-    this.areaPrivada.push(miCambios);
+  // Función para cerrar el modal del perfil
+  cerrarPerfil() {
+    this.mostrarModalPerfil = false;
+    // Restaurar scroll del body
+    document.body.style.overflow = 'auto';
+  }
 
-    // Resetear inputs
-    this.cuadroNombre = "";
-    this.cuadroEdad = "";
-    this.cuadroAltura = "";
-    this.cuadroPeso = "";
+  // Función para ir al calendario de vacunas
+  irACalendario() {
+    this.mostrarCalendario();
+  }
+
+  // Función para mostrar ayuda
+  mostrarAyuda() {
+    alert('Sección de Ayuda:\n\n• Ver Perfil: Gestiona los perfiles de tu familia\n• Calendario: Consulta las vacunas programadas\n• Para más información, contacta con soporte');
+  }
+
+  mostrarEstadoSalud() {
+    this.mostrarModalEstadoSalud = true;
+    document.body.style.overflow = 'hidden';
+  }
+  
+  cerrarEstadoSalud() {
+    this.mostrarModalEstadoSalud = false;
+    document.body.style.overflow = 'auto';
+  }
+
+  mostrarCalendario() {
+    this.mostrarModalCalendario = true;
+    document.body.style.overflow = 'hidden';
+  }
+
+  cerrarCalendario() {
+    this.mostrarModalCalendario = false;
+    document.body.style.overflow = 'auto';
   }
 }
-  

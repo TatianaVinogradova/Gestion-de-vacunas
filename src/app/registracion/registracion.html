@@ -1,20 +1,48 @@
 
-<h1>{{titulo_reg}}</h1>
+<div class="auth-container">
+    <h1>{{ mostrarRegistro ? 'Registro de Usuario' : 'Iniciar Sesión' }}</h1>
+    
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <input
+          type="email"
+          placeholder="E-mail"
+          [(ngModel)]="email"
+          name="email"
+          required
+          [disabled]="loading"
+        />
+      </div>
+      
+      <div class="form-group">
+        <input
+          type="password"
+          placeholder="Contraseña"
+          [(ngModel)]="password"
+          name="password"
+          required
+          [disabled]="loading"
+        />
+      </div>
+      
+      <button type="submit" [disabled]="loading || !email || !password">
+        {{ loading ? 'Procesando...' : (mostrarRegistro ? 'Registrarse' : 'Iniciar Sesión') }}
+      </button>
+    </form>
+    
+    <div *ngIf="mensaje" [class]="tipoMensaje">
+      {{ mensaje }}
+    </div>
+    
+    <div class="toggle-mode">
+      <p *ngIf="!mostrarRegistro">
+        ¿No tienes cuenta? 
+        <a href="#" (click)="toggleMode($event)">Regístrate aquí</a>
+      </p>
+      <p *ngIf="mostrarRegistro">
+        ¿Ya tienes cuenta? 
+        <a href="#" (click)="toggleMode($event)">Inicia sesión aquí</a>
+      </p>
+    </div>
+  </div>
 
-<form>
-
-<input type="text" name = "E-mail" placeholder="E-mail"><br/>
-
-<input type="text" name = "Contraseña" placeholder="Contraseña"><br/>
-
-<input type="submit" value = "Registrar" (click)="registrarUsuario()"><br/>
-
-</form>
-
-<br/>
-
-<p *ngIf="registrado; else sinRegistrar">{{mensaje_reg}}</p>
-
-<ng-template #sinRegistrar>
-    <p>Nadie registrado</p>
-</ng-template>
