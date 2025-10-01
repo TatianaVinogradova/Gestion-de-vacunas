@@ -1,0 +1,21 @@
+{
+	"appId": "com.example.app",
+	"appName": "gestion-de-vacunas",
+	"webDir": "dist/gestion-de-vacunas/browser",
+	"server": {
+		"androidScheme": "https"
+	},
+	"plugins": {
+		"PushNotifications": {
+			"presentationOptions": [
+				"badge",
+				"sound",
+				"alert"
+			]
+		}
+	},
+	"packageClassList": [
+		"CAPCameraPlugin",
+		"PushNotificationsPlugin"
+	]
+}
