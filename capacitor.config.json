@@ -1,0 +1,6 @@
+{
+  "appId": "com.gestion.vacunas",
+  "appName": "gestion-de-vacunas",
+  "webDir": "dist/gestion-de-vacunas/browser",
+  "bundledWebRuntime": false
+}

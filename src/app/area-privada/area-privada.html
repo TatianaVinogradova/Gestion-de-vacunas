@@ -1,7 +1,7 @@
 <div class="area-privada-container">
   <header class="header">
     <div class="header-left">
-      <h1>Área Privada</h1>
+      <h1>VacunApp</h1>
       
       <nav class="nav-buttons">
         <button class="nav-btn" (click)="mostrarPerfil()">Ver Perfil</button>
@@ -35,6 +35,8 @@
         <div class="info-card">
           <h4>Historial</h4>
           <p>Accede al historial completo de vacunaciones de cada miembro de la familia.</p>
+        <button class="nav-btn" style="color: gray;" (click)="tomarFoto()">Tomar Foto</button>
+        <img *ngIf="photoUrl" [src]="photoUrl" alt="Foto" style="max-width: 100%; margin-top: 10px;" />
         </div>
       </div>
     </div>

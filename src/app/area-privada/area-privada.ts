@@ -6,6 +6,7 @@ import { User } from '@angular/fire/auth';
 import { Perfil } from '../perfil/perfil'; // Importar el componente Perfil
 import { EstadoDeVacunacion } from '../estado-de-vacunacion/estado-de-vacunacion'
 import { CalendarioDeVacunas } from '../calendario-de-vacunas/calendario-de-vacunas';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
   selector: 'app-area-privada',
@@ -16,6 +17,7 @@ import { CalendarioDeVacunas } from '../calendario-de-vacunas/calendario-de-vacu
 })
 export class AreaPrivada implements OnInit {
   usuario: User | null = null;
+  photoUrl: string | undefined;
   mostrarModalPerfil: boolean = false; // Variable para controlar el modal
   mostrarModalEstadoSalud: boolean = false; // Variable para controlar el modal de estado de salud
   mostrarModalCalendario: boolean = false;
@@ -43,6 +45,20 @@ export class AreaPrivada implements OnInit {
       // El servicio ya redirige automáticamente al login
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
+    }
+  }
+
+  async tomarFoto() {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Camera
+      });
+      this.photoUrl = image.webPath;
+    } catch (error) {
+      console.error('Error al tomar foto:', error);
     }
   }
 
