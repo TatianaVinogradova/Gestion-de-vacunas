@@ -5,12 +5,13 @@ import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { RouterOutlet, Router } from '@angular/router';  
 import { Subscription, take } from 'rxjs';
+import { ToastComponent } from './toast/toast';
 
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, ToastComponent],
   templateUrl: './app.html',
   styleUrls: ['./app.scss']
 })

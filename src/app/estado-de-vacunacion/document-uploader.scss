@@ -561,3 +561,175 @@
   white-space: pre-wrap;
   word-wrap: break-word;
 }
+// Resultados
+.scan-results {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+
+  .results-header {
+    margin-bottom: 20px;
+
+    h4 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 12px;
+    }
+    .document-info {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+
+      .doc-type {
+        padding: 6px 12px;
+        background: #dbeafe;
+        color: #2563eb;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .detected-person {
+        padding: 6px 12px;
+        background: #dcfce7;
+        color: #16a34a;
+        border-radius: 12px;
+        font-size: 13px;
+      }
+    }
+  }
+}
+.vaccines-detected {
+  h5 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 16px;
+  }
+}
+
+.vaccines-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.vaccine-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 12px;
+  border-left: 4px solid #d1d5db;
+
+  &.high-confidence {
+    border-left-color: #22c55e;
+    background: #f0fdf4;
+  }
+
+  &.medium-confidence {
+    border-left-color: #f59e0b;
+    background: #fffbeb;
+  }
+  &.low-confidence {
+    border-left-color: #ef4444;
+    background: #fef2f2;
+  }
+
+  .vaccine-info {
+    flex: 1;
+
+    .vaccine-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+
+      strong {
+        font-size: 15px;
+        color: #1f2937;
+      }
+      .confidence-badge {
+        padding: 4px 8px;
+        border-radius: 8px;
+        font-size: 11px;
+        font-weight: 600;
+        background: #e5e7eb;
+        color: #6b7280;
+      }
+    }
+
+    .vaccine-details {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: #6b7280;
+      span {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+    }
+  }
+
+  .apply-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+
+    input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+    .label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #22c55e;
+    }
+  }
+}
+
+.no-vaccines {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6b7280;
+
+  p {
+    margin-bottom: 8px;
+  }
+}
+.extracted-text {
+  margin-top: 20px;
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 12px;
+
+  summary {
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: #6b7280;
+    user-select: none;
+
+    &:hover {
+      color: #22c55e;
+    }
+  }
+  pre {
+    margin-top: 12px;
+    padding: 12px;
+    background: white;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #1f2937;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+}
+

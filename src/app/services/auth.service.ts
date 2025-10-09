@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, NgZone } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, User, onAuthStateChanged } from '@angular/fire/auth';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -10,17 +10,19 @@ export class AuthService {
 
   private firebaseAuth: Auth = inject(Auth);
   private router = inject(Router);
+  private ngZone = inject(NgZone);
 
   // Observable para el estado del usuario
 private userSubject = new BehaviorSubject<User | null>(null);
 public user$ = this.userSubject.asObservable();
 
   constructor() {
-	// Escuchar cambios en el estado de autenticación
+	this.ngZone.run(() => {
 	onAuthStateChanged(this.firebaseAuth, (user) => {
 		this.userSubject.next(user);
 	});
-   }
+   });
+}
 
 	async register({ email, password } : { email: string; password: string }) {
 		try {
