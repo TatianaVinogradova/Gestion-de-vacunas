@@ -71,91 +71,11 @@ export class EstadoDeVacunacion implements OnInit {
   }
   
   async tomarFotoConCamara() {
-    if (!Capacitor.isNativePlatform()) {
-      this.toast.error('La cámara solo está disponible en dispositivos móviles', 'Error');
-      return;
+      this.mostrarCargadorDocumentos = true;
     }
-
-    try {
-      const image = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: true,
-        resultType: CameraResultType.DataUrl,
-        source: CameraSource.Camera,
-        width: 1200,
-        height: 1600
-      });
-
-      if (image.dataUrl) {
-        this.documentService.addDocument(image.dataUrl, 'photo');
-        this.cerrarModalFoto();
-        this.toast.success('Foto capturada y agregada', 'Éxito');
-
-        // Abrir automáticamente el modal de estado de vacunación
-        setTimeout(() => {
-          this.mostrarEstadoSalud();
-        }, 300);
-      }
-    } catch (error) {
-      console.error('Error al tomar foto:', error);
-      this.toast.error('No se pudo tomar la foto', 'Error');
-    }
-  }
 
   async subirDocumento() {
-    // Para web: usar input file
-    if (!Capacitor.isNativePlatform()) {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*,application/pdf';
-
-      input.onchange = (e: any) => {
-        const file = e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = (event: any) => {
-            this.documentService.addDocument(event.target.result, 'file');
-            this.cerrarModalFoto();
-            this.toast.success('Documento cargado y agregado', 'Éxito');
-            
-            // Abrir automáticamente el modal de estado de vacunación
-            setTimeout(() => {
-              this.mostrarEstadoSalud();
-            }, 300);
-          };
-          reader.readAsDataURL(file);
-        }
-      };
-      
-      input.click();
-      return;
-    }
-
-    // Para móvil: usar galería de fotos
-    try {
-      const image = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: true,
-        resultType: CameraResultType.DataUrl,
-        source: CameraSource.Photos,
-        width: 1200,
-        height: 1600
-      });
-
-      if (image.dataUrl) {
-        this.documentService.addDocument(image.dataUrl, 'file');
-        this.cerrarModalFoto();
-        this.toast.success('Documento cargado correctamente', 'Éxito');
-        
-        // Abrir automáticamente el modal de estado de vacunación
-        setTimeout(() => {
-          this.mostrarEstadoSalud();
-        }, 300);
-      }
-    } catch (error) {
-      console.error('Error subiendo documento:', error);
-      this.toast.error('No se pudo cargar el documento', 'Error');
-    }
+    this.mostrarCargadorDocumentos = true;
   }
 
   async analizarYAplicarVacunas(doc: VaccinationDocument) {

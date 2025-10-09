@@ -1,24 +1,18 @@
 <div class="document-uploader">
-    <div class="uploader-header">
-      <h3>Cargar Documento de Vacunación</h3>
-      <p>Sube una foto o PDF de tu cartilla de vacunación para actualizar automáticamente tu estado</p>
-    </div>
+  <div class="uploader-header">
+    <h3>Cargar Documento de Vacunación</h3>
+    <p>Toma una foto o sube un archivo de tu cartilla para actualizar automáticamente</p>
+  </div>
 
-    <!-- Área de carga -->
-    <div class="upload-area" 
-         [class.dragover]="dragOver"
-         [class.processing]="procesando"
-         (dragover)="onDragOver($event)"
-         (dragleave)="onDragLeave($event)"
-         (drop)="onDrop($event)"
-         (click)="fileInput.click()">
-      
-      <input #fileInput 
-             type="file" 
-             accept=".jpg,.jpeg,.png,.pdf" 
-             (change)="onFileSelected($event)"
-             style="display: none">
-      
+  <!-- Área de carga -->
+  <div class="upload-area" [class.dragover]="dragOver" [class.processing]="procesando" (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)" (drop)="onDrop($event)" (click)="fileInput.click()">
+
+    <input #fileInput type="file" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileSelected($event)" style="display: none">
+
+
+<!-- Botones de acción -->
+
       <div class="upload-content" *ngIf="!procesando">
         <div class="upload-icon">📄</div>
         <h4>Arrastra tu documento aquí o haz clic para seleccionar</h4>
@@ -62,14 +56,13 @@
 
       <div class="vaccines-detected">
         <h5>Vacunas detectadas:</h5>
-        
+
         <div class="vaccines-list" *ngIf="ultimoResultado.vacunasDetectadas.length > 0">
-          <div *ngFor="let vacuna of ultimoResultado.vacunasDetectadas" 
-               class="vaccine-item"
-               [class.high-confidence]="vacuna.confianza > 0.7"
-               [class.medium-confidence]="vacuna.confianza > 0.4 && vacuna.confianza <= 0.7"
-               [class.low-confidence]="vacuna.confianza <= 0.4">
-            
+          <div *ngFor="let vacuna of ultimoResultado.vacunasDetectadas" class="vaccine-item"
+            [class.high-confidence]="vacuna.confianza > 0.7"
+            [class.medium-confidence]="vacuna.confianza > 0.4 && vacuna.confianza <= 0.7"
+            [class.low-confidence]="vacuna.confianza <= 0.4">
+
             <div class="vaccine-info">
               <div class="vaccine-name">
                 <strong>{{ vacuna.nombre }}</strong>
@@ -83,9 +76,7 @@
             </div>
 
             <label class="apply-checkbox">
-              <input type="checkbox" 
-                     [checked]="vacuna.confianza > 0.6"
-                     (change)="toggleVacunaAplicar(vacuna, $event)">
+              <input type="checkbox" [checked]="vacuna.confianza > 0.6" (change)="toggleVacunaAplicar(vacuna, $event)">
               <span class="checkmark"></span>
               <span class="label">Aplicar</span>
             </label>
@@ -106,9 +97,8 @@
 
       <!-- Botones de acción -->
       <div class="action-buttons">
-        <button class="btn-apply" 
-                [disabled]="!personaSeleccionada || vacunasParaAplicar.length === 0"
-                (click)="aplicarVacunas()">
+        <button class="btn-apply" [disabled]="!personaSeleccionada || vacunasParaAplicar.length === 0"
+          (click)="aplicarVacunas()">
           Aplicar {{ vacunasParaAplicar.length }} vacunas seleccionadas
         </button>
         <button class="btn-cancel" (click)="limpiarResultados()">
@@ -124,7 +114,7 @@
         <div class="success-icon">✅</div>
         <h4>¡Vacunas actualizadas correctamente!</h4>
         <p>Se han aplicado {{ vacunasAplicadas }} vacunas al estado de {{ nombrePersonaActualizada }}</p>
-      <small>El gráfico se actualizará automáticamente</small>
+        <small>El gráfico se actualizará automáticamente</small>
       </div>
     </div>
   </div>
