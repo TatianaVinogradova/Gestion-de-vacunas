@@ -4,6 +4,7 @@
 	"webDir": "dist/gestion-de-vacunas/browser",
 	"bundledWebRuntime": false,
 	"packageClassList": [
-		"CAPCameraPlugin"
+		"CAPCameraPlugin",
+		"PushNotificationsPlugin"
 	]
 }

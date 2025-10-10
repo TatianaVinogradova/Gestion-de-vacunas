@@ -8,8 +8,8 @@ import { EstadoDeVacunacion } from '../estado-de-vacunacion/estado-de-vacunacion
 import { CalendarioDeVacunas } from '../calendario-de-vacunas/calendario-de-vacunas';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { ToastService } from '../services/toast.service';
-import { Capacitor } from '@capacitor/core';
 import { DocumentService } from '../services/document.service';
+import { Capacitor } from '@capacitor/core';
 
 
 @Component({

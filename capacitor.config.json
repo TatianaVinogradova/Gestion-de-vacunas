@@ -2,5 +2,10 @@
   "appId": "com.gestion.vacunas",
   "appName": "gestion-de-vacunas",
   "webDir": "dist/gestion-de-vacunas/browser",
-  "bundledWebRuntime": false
+  "bundledWebRuntime": false,
+  "plugins": {
+    "PushNotifications": {
+      "presentationOptions": ["badge", "sound", "alert"]
+    }
+  }
 }
