@@ -1,9 +1,5 @@
 import { Routes } from '@angular/router';
 import { authGuard, loginGuard } from './services/auth.guard';
-import { Perfil } from './perfil/perfil';
-import { Persona } from './area-privada/persona.model';
-import { Registracion } from '../app/registracion/registracion';
-
 
 export const routes: Routes = [
   {
@@ -19,19 +15,28 @@ export const routes: Routes = [
   {
     path: 'area-privada',
     loadComponent: () => import('./area-privada/area-privada').then(m => m.AreaPrivada),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    children: [
+      {
+        path: 'perfil',
+        loadComponent: () => import('./perfil/perfil').then(m => m.Perfil)
+      },
+      {
+        path: 'calendario',
+        loadComponent: () => import('./calendario-de-vacunas/calendario-de-vacunas').then(m => m.CalendarioDeVacunas)
+      },
+      {
+        path: 'estado',
+        loadComponent: () => import('./estado-de-vacunacion/estado-de-vacunacion').then(m => m.EstadoDeVacunacion)
+      },
+      {
+        path: 'contacto',
+        loadComponent: () => import('./contacto/contacto').then(m => m.Contacto)
+      }
+    ]
   },
   {
     path: '**',
     redirectTo: '/login'
-  },
-
-  {
-    path: 'perfil',
-    loadComponent: () => import('../app/perfil/perfil').then(m => m.Perfil),
-    canActivate: []
-  },
-
+  }
 ]
-
-export class appRoutes {}

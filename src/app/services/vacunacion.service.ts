@@ -1,7 +1,23 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, doc, setDoc, getDoc, getDocs, query, where, updateDoc, deleteDoc } from '@angular/fire/firestore';
+import { 
+  Firestore, 
+  collection, 
+  collectionData,
+  doc, 
+  addDoc,
+  setDoc, 
+  getDoc, 
+  getDocs, 
+  query, 
+  where, 
+  updateDoc, 
+  deleteDoc,
+  orderBy,
+  Timestamp 
+} from '@angular/fire/firestore';
 import { AuthService } from './auth.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { VaccinationRecord, Reminder, VacunaStatistics } from '../estado-de-vacunacion/vacuna.model';
 
 export interface Vacuna {
   nombre: string;
@@ -29,6 +45,7 @@ export interface EstadoVacunacion {
 @Injectable({
   providedIn: 'root'
 })
+
 export class VacunacionService {
   private firestore = inject(Firestore);
   private authService = inject(AuthService);
@@ -174,5 +191,7 @@ export class VacunacionService {
     };
   }
 }
+
+
 
     

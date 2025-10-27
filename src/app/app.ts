@@ -6,6 +6,7 @@ import { AuthService } from './services/auth.service';
 import { RouterOutlet, Router } from '@angular/router';  
 import { Subscription, take } from 'rxjs';
 import { ToastComponent } from './toast/toast';
+import { PushNotification } from './services/push-notification';
 
 
 
@@ -22,14 +23,17 @@ export class App implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private pushNotification: PushNotification
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.pushNotification.initPushNotifications();
     // Verificar el estado de autenticación al iniciar la app
-    this.authSubscription = this.authService.user$.pipe(take(1)
-  ).subscribe(user => {
-const currentUrl = this.router.url;
+    this.authSubscription = this.authService.user$.pipe(
+      take(1)
+    ).subscribe(user => {
+      const currentUrl = this.router.url;
 
       if (user && (currentUrl === '/login' || currentUrl === '/')) {
           this.router.navigate(['/area-privada']);

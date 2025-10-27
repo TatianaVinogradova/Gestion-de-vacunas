@@ -9,16 +9,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { provideServiceWorker } from '@angular/service-worker';
-
-const firebaseConfig = {
-  apiKey: "AIzaSyD8YcpE50FCINN2rp-z9BLDQRAFzxq1cVM",
-  authDomain: "gestion-de-vacunas.firebaseapp.com",
-  projectId: "gestion-de-vacunas",
-  storageBucket: "gestion-de-vacunas.firebasestorage.app",
-  messagingSenderId: "31131656S409",
-  appId: "1:31131165654409:web:ece0db2760ec2b8dcc0fe0",
-  measurementId: "G-1Q8NLNXKvW"
-};
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,14 +17,17 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimations(),
-    provideFirebaseApp(() => initializeApp(firebaseConfig)),
+
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideAnalytics(() => getAnalytics()),
     ScreenTrackingService,
     UserTrackingService,
     provideFirestore(() => getFirestore()),
     provideMessaging(() => getMessaging()),
-    provideStorage(() => getStorage()), provideServiceWorker('ngsw-worker.js', {
+    provideStorage(() => getStorage()), 
+    
+    provideServiceWorker('ngsw-worker.js', {
             enabled: !isDevMode(),
             registrationStrategy: 'registerWhenStable:30000'
           })

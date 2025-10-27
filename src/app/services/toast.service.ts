@@ -12,6 +12,7 @@ export interface Toast {
   providedIn: 'root'
 })
 export class ToastService {
+  [x: string]: any;
   private toastSubject = new Subject<Toast>();
   public toast$ = this.toastSubject.asObservable();
   private idCounter = 0;

@@ -45,3 +45,11 @@ Thumbs.db
 .firebase
 *-debug.log
 .runtimeconfig.json
+
+# Environments
+/src/environments/environment.ts
+/src/environments/environment.prod.ts
+
+# Capacitor
+/ios/
+capacitor.config.json

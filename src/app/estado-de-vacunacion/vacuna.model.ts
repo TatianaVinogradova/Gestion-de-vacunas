@@ -50,3 +50,42 @@ export class Vacuna {
       return this.porcentajeCompletado;
     }
   }
+
+  export class VaccinationRecord {
+    id?: string;
+    personaId: string = "";
+    vacunasBase: string = "";
+    fechaAplicacion?: Date;
+    proximaDosis?: Date;
+    estado?: "completada" | "programada" | "vencida";
+    createdAt?: Date;
+    updatedAt?: Date;
+  }
+
+  export class Reminder {
+    id?: string;
+    personaId: string = "";
+    vacunasBase: string = ""
+    fechaProgramada?: Date;
+    estado?: "pendiente" | "completado" | "vencido";
+    notificado?: boolean;
+    fechaNotificacion?: Date;
+    notas?: string;
+    createdAt?: Date;
+  }
+
+  export class VacunaStatistics {
+    totalVacunasAplicadas?: number;
+    vacunasPendientes?: number;
+    vacunasVencidas?: number;
+    ultimaVacuna?: VaccinationRecord;
+    proximaVacuna?: Reminder;
+  
+  }
+
+  export class FamilyMember {
+    id?: string;
+    personaId: string ="";
+    nombre: string ="";
+    createAt?: Date;
+  }
